@@ -1,4 +1,7 @@
 A modern, responsive, and interactive quiz application built using HTML, CSS, JavaScript, and Bootstrap. This app dynamically loads questions from a JSON file, tracks the user's score, provides real-time feedback, and includes a progress indicator and timer for each question.
+
+It contains 4 files named as index.html, style.css, main.js, question.json.
+
 How to Use-
 -Open the app in your browser.
 -Answer the multiple-choice questions.
