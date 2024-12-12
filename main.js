@@ -1,35 +1,54 @@
-// Variables for Quiz and Timer
-let currentQuestionIndex = 0;
+
+let questionIndex = 0;
 let score = 0;
 let timerInterval;
 let timeLeft = 10;
 let questions = [];
+const container = document.getElementById("quiz-container");
+
+
 
 // Fetch questions from JSON file
 async function fetchJsonQuestions() {
   try {
-    const response = await fetch("questions.json"); // Fetching JSON data
+    const response = await fetch("questions.json"); 
     if (!response.ok) throw new Error("Failed to load questions.");
     questions = await response.json();
     if (questions.length === 0) throw new Error("No questions available.");
     
-    setQuizState(); // Function call to start Quiz
-
+    showStartPage(); 
   } catch (error) {
     document.getElementById("quiz-container").innerHTML = `<p class="text-danger">${error.message}</p>`;
   }
 }
 
 
+
+// Show the start page
+function showStartPage() {
+  
+  container.innerHTML = `
+    <div class="text-center start-container">
+      <h4 class="quiz-heading">Welcome</h4>
+      <p class="text-dark">Here you will have 5 questions and each question is having 4 choices, choose one option and if it is correct you will get score immediately and you can see correct answer too. All the best ! </p>
+      <button id="startQuiz" class="btn btn-primary start-button">Start Quiz</button>
+    </div>
+  `;
+  document.getElementById("startQuiz").addEventListener("click", () => {
+    startQuiz();
+  });
+}
+
+
 // Start the quiz
-function setQuizState() {
+function startQuiz() {
   resetQuizState();
   questionDisplay();
 }
 
 // Reset quiz state
 function resetQuizState() {
-  currentQuestionIndex = 0;
+  questionIndex = 0;
   score = 0;
   timeLeft = 10;
   clearInterval(timerInterval);
@@ -39,24 +58,23 @@ function resetQuizState() {
 
 // To display the current question
 function questionDisplay() {
-  if (currentQuestionIndex >= questions.length) {
+  if (questionIndex >= questions.length) {
     showScoreSummary();
     return;
   }
 
-  const currentQuestion = questions[currentQuestionIndex];
-  const container = document.getElementById("quiz-container");
+  const currentQuestion = questions[questionIndex];
+  
 
-  // Progress bar width
-  const progressBarWidth = ((currentQuestionIndex + 1) / questions.length) * 100;
+  
+  const progressBarWidth = ((questionIndex + 1) / questions.length) * 100;
 
 
-// Dynamically updates the innerHTML of quiz container 
 
   container.innerHTML = `
     <!-- Quiz Header -->
     <div class="quiz-header">
-      <div class="question-number">Question ${currentQuestionIndex + 1} of ${questions.length}</div>
+      <div class="question-number">Question ${questionIndex + 1} of ${questions.length}</div>
       <div class="score">Score: ${score}/${questions.length}</div>
     </div>
 
@@ -74,7 +92,7 @@ function questionDisplay() {
       ${currentQuestion.options
         .map((option, index) =>
             `<div class="col-6 d-flex justify-content-center">
-               <button class="btn btn-outline-dark option w-100" data-index="${index}" data-answer="${option}">${option}</button>
+               <button class="btn btn-outline-dark option w-100 fw-bold" data-index="${index}" data-answer="${option}">${option}</button>
              </div>`
         )
         .join("")}
@@ -98,60 +116,52 @@ function questionDisplay() {
   startTimer();
 }
 
-// Manage the correct answer selection
+
+
+// Manage the correct answer selection function
 function chooseAnswer(event, currentQuestion, buttons) {
   clearInterval(timerInterval); // reset the timer
   const selectedAnswer = event.target.getAttribute("data-answer");
   const correctAnswer = currentQuestion.answer;
   const jsonAnswer = selectedAnswer === correctAnswer;
 
-  // Update the buttons' styles based on whether they're correct or wrong
+  
   buttons.forEach((button) => {
     const result = button.getAttribute("data-answer") === correctAnswer;
     button.classList.remove("btn-outline-dark");
-
-    
-
     if (result) {
-      button.classList.add("btn-success"); // Green for correct answer
+      button.classList.add("btn-success"); 
     } else if (button === event.target) {
-      button.classList.add("btn-danger"); // Red for selected wrong answer
+      button.classList.add("btn-danger"); 
     } else {
-      button.classList.add("btn-light"); // Neutral for unselected buttons
+      button.classList.add("btn-light"); 
     }
-
-    button.disabled = true; // Disable all buttons after selection
+    button.disabled = true; 
   });
 
-  // Update score immediately if the answer is correct
+  
   if (jsonAnswer) {
     score++;
   }
- // Update the score display function call
- updateScoreDisplay();
+ 
+  document.querySelector(".score").textContent = `Score: ${score}/${questions.length}`;
 
-  // Show feedback status immediately after the selection
   showStatus(jsonAnswer, correctAnswer);
 
- 
-
-  // Move to the next question after a delay
   setTimeout(() => {
     displayNextQuestion();
-  }, 4000); // Wait 4 seconds before moving to the next question
+  }, 2000); 
 }
 
 
-// Update the score display immediately
-function updateScoreDisplay() {
-  document.querySelector(".score").textContent = `Score: ${score}/${questions.length}`;
-}
 // Show feedback status message
 function showStatus(isCorrect, correctAnswer) {
+  
+  
   const status = document.getElementById("status");
 
   if (isCorrect) {
-    status.innerHTML = `<div class="alert alert-success mt-3"><strong>Hurrah!!!Correct!</strong></div>`;
+    status.innerHTML = `<div class="alert alert-success mt-3"><strong>Hurrah!!!  Correct!</strong></div>`;
   } else {
     status.innerHTML = `
       <div class="alert alert-danger mt-3" role="alert">
@@ -164,7 +174,7 @@ function showStatus(isCorrect, correctAnswer) {
 
 // Move to the next question
 function displayNextQuestion() {
-  currentQuestionIndex++;
+ questionIndex++;
   timeLeft = 10;
   questionDisplay();
 }
@@ -191,30 +201,27 @@ function startTimer() {
   }, 1000);
 }
 
-// Handle timeout and display feedback message when timeout
+// Timeout function
 function manageTimeout() {
-  const currentQuestion = questions[currentQuestionIndex];
-  const status = document.getElementById("status");
 
-  // Display feedback for timeout with the correct answer
+  const currentQuestion = questions[questionIndex];
+  const status = document.getElementById("status");
+  
   status.innerHTML = `<div class="alert alert-warning mt-3" role="alert">
     Time's up! The correct answer is: <strong>${currentQuestion.answer}</strong>
   </div>`;
 
-  // Disable all option buttons and highlight the correct answer
+  
   document.querySelectorAll(".option").forEach((button) => {
-    const isCorrect = button.getAttribute("data-answer") === currentQuestion.answer;
-    button.disabled = true; // Disable the button
-    if (isCorrect) {
+    const result = button.getAttribute("data-answer") === currentQuestion.answer;
+    button.disabled = true; 
+    if (result) {
       button.classList.remove("btn-outline-dark");
-      button.classList.add("btn-success"); // Highlight correct answer in green
-    } else {
-      button.classList.remove("btn-outline-dark");
-      button.classList.add("btn-light"); // Keep incorrect answers neutral
-    }
-  });
+      button.classList.add("btn-success"); 
+    } 
+    });
 
-  // Move to the next question after 2 seconds
+  
   setTimeout(() => {
     displayNextQuestion();
   }, 2000);
@@ -226,9 +233,12 @@ function showScoreSummary() {
   document.getElementById("quiz-container").innerHTML = `
     <h3 class="text-center">Quiz Complete!</h3>
     <p class=" text-center text-primary"><strong>Your score: ${score} / ${questions.length}</strong></p>
-    <button class="btn btn-primary d-block mx-auto" onclick="setQuizState()">Replay Quiz</button>
+    <button class="btn btn-primary d-block mx-auto" onclick="startQuiz()">Replay Quiz</button>
   `;
+  document.getElementById("replay-button").addEventListener("click", () => {
+    showStartPage(); 
 }
-
+)}
 // Fetch questions and start the quiz
+
 fetchJsonQuestions();
