@@ -1,0 +1,125 @@
+body {
+      
+    background: linear-gradient(105deg, rgba(255, 0, 150, 0.8), rgba(0, 204, 255, 0.8));
+    
+  }
+  
+.quiz-container {
+  background-color: #f8f9fa91;
+  background-image: url('https://www.transparenttextures.com/patterns/asfalt-dark.png');
+  color: #333;
+  padding: 40px;
+  border-radius: 15px;
+  box-shadow: 0 4px 12px rgb(0, 0, 0);
+  width: 90%; 
+  max-width: 600px; 
+  margin: 0 auto;
+}
+
+@media (max-width: 768px) {
+.quiz-container {
+  width: 95%; 
+  padding: 30px;
+}
+}
+
+@media (max-width: 480px) {
+.quiz-container {
+  width: 100%; 
+  padding: 20px;
+}
+}
+
+
+  .quiz-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+  }
+
+  .quiz-header .question-number {
+    font-size: 1rem;
+    font-weight: bold;
+    color: #333;
+  }
+
+  .quiz-header .score {
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #28a745; 
+  }
+
+  .progress {
+    max-width: 120px;
+    margin-left: 10 auto;
+  }
+
+  .progress-bar {
+    background-color: #007bff;
+    transition: width 0.5s ease;
+   
+  }
+
+  .option {
+    padding: 12px;
+    margin: 5px;
+    border-radius: 8px;
+    font-size: 1.1rem;
+    transition: all 0.3s ease;
+    background-color: #d2f2fc; 
+  }
+
+  .option:hover {
+    background-color: #535252; 
+  }
+
+  .correct {
+    background-color: #28a745 !important; 
+    color: white;
+  }
+
+  .wrong {
+    background-color: #dc3545 !important; 
+    color: white;
+  }
+
+  
+  
+  .status {
+    font-size: 1.2rem;
+    font-weight: bold;
+
+    
+    margin-top: 10px;
+    color: #333;
+  }
+
+  .timer-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+  }
+
+  .timer-icon {
+    font-size: 2rem;
+    color: #28a745; 
+    margin-right: 10px;
+  }
+
+  .timer-text {
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #333;
+  }
+
+  .quiz-heading {
+    font-size: 2.5rem;
+    font-weight: bold;
+    color: #f9fc59;
+    text-align: center;
+    margin-bottom: 20px;
+    margin-top: 30px;
+    box-shadow: #08080800;
+  }

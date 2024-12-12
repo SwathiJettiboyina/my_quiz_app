@@ -1,0 +1,28 @@
+ [
+  {
+    "questionText": "1.What is capital of INDIA?",
+    "options": ["Hyderabad", "Delhi", "Mumbai", "Kolkata"],
+    "answer": "Delhi"
+  },
+  {
+    "questionText": "2.Which of the following is one of the 7 wonders in the world from India?",
+    "options": ["Great wall of China", "Taj Mahal", "Effiel Tower", "Red fort"],
+    "answer": "Taj Mahal"
+  },
+  {
+    "questionText": "3.What is the national language in India?",
+    "options": ["Telugu", "Kannada", "Marati", "Hindi"],
+    "answer": "Hindi"
+  },
+  {
+    "questionText": "4.What is the national bird in India?",
+    "options": ["Parrot", "Peacock", "Dove", "Eagle"],
+    "answer": "Peacock"
+  },
+  {
+    "questionText": "5.What is the national animal in India?",
+    "options": ["Cow", "Elephant", "Tiger", "Lion"],
+    "answer": "Tiger"
+  }
+  
+]
