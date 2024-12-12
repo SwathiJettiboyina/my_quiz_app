@@ -8,4 +8,4 @@ How to Use-
 -View real-time feedback for each answer and see correct answer.
 -Complete the quiz to see your final score.
 
-Here is LIVE Demo : https://swathi-quiz-app.netlify.app
+Here is LIVE Demo : https://swathi-myquiz-app.netlify.app
